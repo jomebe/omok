@@ -1,23 +1,23 @@
-// UP, DOWN, LEFT, RIGHT í‚¤ë¥¼ ì •ì˜
+// UP, DOWN, LEFT, RIGHT Å°¸¦ Á¤ÀÇ
 #define UP 72
 #define DOWN 80
 #define LEFT 75
 #define RIGHT 77
-// í•„ìš”í•œ í—¤ë” íŒŒì¼ í¬í•¨
+// ÇÊ¿äÇÑ Çì´õ ÆÄÀÏ Æ÷ÇÔ
 #include <stdio.h>
 #include <stdlib.h>
 #include <Windows.h>
 #include <conio.h>
-// gotoxy í•¨ìˆ˜: ì½˜ì†”ì˜ ì»¤ì„œ ìœ„ì¹˜ë¥¼ ì„¤ì •
+// gotoxy ÇÔ¼ö: ÄÜ¼ÖÀÇ Ä¿¼­ À§Ä¡¸¦ ¼³Á¤
 void gotoxy(int x, int y){
 	COORD pos = {x, y};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-// dx, dy ë°°ì—´: 8ë°©í–¥ ê²€ì‚¬ë¥¼ ìœ„í•œ ì¢Œí‘œ
+// dx, dy ¹è¿­: 8¹æÇâ °Ë»ç¸¦ À§ÇÑ ÁÂÇ¥
 int dx[9] = {0, 1, 1, 1, 0, -1, -1, -1}, dy[9] = {-1, -1, 0, 1, 1, 1, 0, -1};
 
-// field 2ì°¨ì› ë°°ì—´: ê²Œì„ ë³´ë“œ
+// field 2Â÷¿ø ¹è¿­: °ÔÀÓ º¸µå
 int field[1001][1001] = {{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
 						 {'A', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 						 {'B', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -35,7 +35,7 @@ int field[1001][1001] = {{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
 						 {'N', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 						 {'O', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 						 
-// print_field í•¨ìˆ˜: ê²Œì„ ë³´ë“œë¥¼ ì½˜ì†”ì— ì¶œë ¥
+// print_field ÇÔ¼ö: °ÔÀÓ º¸µå¸¦ ÄÜ¼Ö¿¡ Ãâ·Â
 void print_field()
 {
 	int i, j;
@@ -43,33 +43,54 @@ void print_field()
 	{
 		for (j = 0; j <= 15; j++)
 		{
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-			if (field[i][j] >= 1 && field[i][j] <= 15)
+			if (field[i][j] >= 1 && field[i][j] <= 15){
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 				printf("%2d ", field[i][j]);
-			else if (field[i][j] == 0)
+			}
+			else if (field[i][j] == 0){
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
 				printf("%2c ", '-');
-			else if (field[i][j] == -1)
+			}
+			else if (field[i][j] == -1){//X¼³Ä¡
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
 				printf("%2c ", 'X');
+			}
+
 			// printf(" \u25CF ");
-			else if (field[i][j] == -2)
+			else if (field[i][j] == -2){//O¼³Ä¡
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
 				printf("%2c ", 'O');
-			else if (field[i][j] == -3)
+			}
+			else if (field[i][j] == -3)//X¿¹»ó
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
 				printf("%2c ", 'X');
 			}
-			else if (field[i][j] == -4)
+			else if (field[i][j] == -4)//O¿¹»ó
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
 				printf("%2c ", 'O');
 			}
-			else
+			else if (field[i][j] == -5)//XºÒ°¡´É
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+				printf("%2c ", 'X');
+			}
+			else if (field[i][j] == -6)//OºÒ°¡´É
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+				printf("%2c ", 'O');
+			}
+			else{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 				printf("%2c ", field[i][j]);
+			}
 		}
 		printf("\n");
 	}
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 }
-// checkfive í•¨ìˆ˜: 5ëª©(gomok)ì„ ê²€ì‚¬
+// checkfive ÇÔ¼ö: 5¸ñ(gomok)À» °Ë»ç
 int checkfive(int color)
 {
 	int i, j, d, check = 1, x1, y1, k;
@@ -130,7 +151,7 @@ int checkfive(int color)
 }
 char y, cy, b;
 int x, a, cx, chk;
-// main í•¨ìˆ˜: ê²Œì„ ì§„í–‰
+// main ÇÔ¼ö: °ÔÀÓ ÁøÇà
 int main()
 {
 	system("cls");
@@ -139,16 +160,19 @@ int main()
 	int running = 1;
 	while (running)
 	{
-		if (turn == -2)
+		if (turn == -2)//O
 		{
 		aa:
 			x = 7;
 			y = 'H';
-			while (true)
+			while (1)
 			{
 				int original;
 				original = field[y - 'A' + 1][x];
-				field[y - 'A' + 1][x] = -4;
+				if(original!=0)
+					field[y-'A'+1][x] = -6;
+				else
+					field[y - 'A' + 1][x] = -4;
 				gotoxy(0, 0);
 				print_field();
 				field[y - 'A' + 1][x] = original;
@@ -188,30 +212,34 @@ int main()
 			case -2:
 				gotoxy(0, 0);
 				print_field();
-				printf("O WIN");
+				printf("O WIN  ");
 				running = 0;
 				break;
 			case -1:
 				gotoxy(0, 0);
 				field[y - 'A' + 1][x] = 0;
 				print_field();
-				printf("6ëª©ì€ ì°©ìˆ˜ ê¸ˆì§€ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.\n");
+				printf("6¸ñÀº Âø¼ö ±İÁöÀÔ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.\n");
 				Sleep(1000);
 				goto aa;
 			default:
 				turn = -1;
 			}
 		}
-		else
+		else//x
 		{
 			x = 7;
 			y = 'H';
-			while (true)
+			while (1)
 			{
 				int original;
 				original = field[y - 'A' + 1][x];
-				field[y - 'A' + 1][x] = -3;
+				if(original!=0)
+					field[y-'A'+1][x] = -5;
+				else
+					field[y - 'A' + 1][x] = -3;
 				gotoxy(0, 0);
+				
 				// system("cls");
 				print_field();
 				// printf("%d %d\n", y - 'A' + 1, x);
@@ -253,7 +281,7 @@ int main()
 			case -1:
 				gotoxy(0, 0);
 				print_field();
-				printf("X WIN");
+				printf("X WIN  ");
 				running = 0;
 				break;
 			default:
