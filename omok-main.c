@@ -155,6 +155,13 @@ int x, a, cx, chk;
 int main()
 {
 	system("cls");
+	printf("오목게임을 시작합니다.\n");
+	//게임모드 선택
+	printf("1. 기본 모드\n");
+	printf("2. 확률 모드\n");
+	printf("3. AI 모드\n");
+	int mode;
+	scanf("%d", &mode);
 	int ch = 0;
 	int i, j, turn = -2;
 	int running = 1;
