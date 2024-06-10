@@ -1,23 +1,23 @@
-// UP, DOWN, LEFT, RIGHT Å°¸¦ Á¤ÀÇ
+// UP, DOWN, LEFT, RIGHT í‚¤ë¥¼ ì •ì˜
 #define UP 72
 #define DOWN 80
 #define LEFT 75
 #define RIGHT 77
-// ÇÊ¿äÇÑ Çì´õ ÆÄÀÏ Æ÷ÇÔ
+// í•„ìš”í•œ í—¤ë” íŒŒì¼ í¬í•¨
 #include <stdio.h>
 #include <stdlib.h>
 #include <Windows.h>
 #include <conio.h>
-// gotoxy ÇÔ¼ö: ÄÜ¼ÖÀÇ Ä¿¼­ À§Ä¡¸¦ ¼³Á¤
+// gotoxy í•¨ìˆ˜: ì½˜ì†”ì˜ ì»¤ì„œ ìœ„ì¹˜ë¥¼ ì„¤ì •
 void gotoxy(int x, int y){
 	COORD pos = {x, y};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-// dx, dy ¹è¿­: 8¹æÇâ °Ë»ç¸¦ À§ÇÑ ÁÂÇ¥
+// dx, dy ë°°ì—´: 8ë°©í–¥ ê²€ì‚¬ë¥¼ ìœ„í•œ ì¢Œí‘œ
 int dx[9] = {0, 1, 1, 1, 0, -1, -1, -1}, dy[9] = {-1, -1, 0, 1, 1, 1, 0, -1};
 
-// field 2Â÷¿ø ¹è¿­: °ÔÀÓ º¸µå
+// field 2ì°¨ì› ë°°ì—´: ê²Œì„ ë³´ë“œ
 int field[1001][1001] = {{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
 						 {'A', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 						 {'B', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -35,7 +35,7 @@ int field[1001][1001] = {{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
 						 {'N', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 						 {'O', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 						 
-// print_field ÇÔ¼ö: °ÔÀÓ º¸µå¸¦ ÄÜ¼Ö¿¡ Ãâ·Â
+// print_field í•¨ìˆ˜: ê²Œì„ ë³´ë“œë¥¼ ì½˜ì†”ì— ì¶œë ¥
 void print_field()
 {
 	int i, j;
@@ -51,32 +51,32 @@ void print_field()
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
 				printf("%2c ", '-');
 			}
-			else if (field[i][j] == -1){//X¼³Ä¡
+			else if (field[i][j] == -1){//Xì„¤ì¹˜
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
 				printf("%2c ", 'X');
 			}
 
 			// printf(" \u25CF ");
-			else if (field[i][j] == -2){//O¼³Ä¡
+			else if (field[i][j] == -2){//Oì„¤ì¹˜
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
 				printf("%2c ", 'O');
 			}
-			else if (field[i][j] == -3)//X¿¹»ó
+			else if (field[i][j] == -3)//Xì˜ˆìƒ
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
 				printf("%2c ", 'X');
 			}
-			else if (field[i][j] == -4)//O¿¹»ó
+			else if (field[i][j] == -4)//Oì˜ˆìƒ
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
 				printf("%2c ", 'O');
 			}
-			else if (field[i][j] == -5)//XºÒ°¡´É
+			else if (field[i][j] == -5)//Xë¶ˆê°€ëŠ¥
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
 				printf("%2c ", 'X');
 			}
-			else if (field[i][j] == -6)//OºÒ°¡´É
+			else if (field[i][j] == -6)//Oë¶ˆê°€ëŠ¥
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
 				printf("%2c ", 'O');
@@ -90,7 +90,7 @@ void print_field()
 	}
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 }
-// checkfive ÇÔ¼ö: 5¸ñ(gomok)À» °Ë»ç
+// checkfive í•¨ìˆ˜: 5ëª©(gomok)ì„ ê²€ì‚¬
 int checkfive(int color)
 {
 	int i, j, d, check = 1, x1, y1, k;
@@ -151,15 +151,15 @@ int checkfive(int color)
 }
 char y, cy, b;
 int x, a, cx, chk;
-// main ÇÔ¼ö: °ÔÀÓ ÁøÇà
+// main í•¨ìˆ˜: ê²Œì„ ì§„í–‰
 int main()
 {
 	system("cls");
-	printf("¿À¸ñ°ÔÀÓÀ» ½ÃÀÛÇÕ´Ï´Ù.\n");
-	//°ÔÀÓ¸ğµå ¼±ÅÃ
-	printf("1. ±âº» ¸ğµå\n");
-	printf("2. È®·ü ¸ğµå\n");
-	printf("3. AI ¸ğµå\n");
+	printf("STARTING OMOK GAME\n");
+	//ê²Œì„ëª¨ë“œ ì„ íƒ
+	printf("1. NORMAL MODE\n");
+	printf("2. PERCENT MODE\n");
+	printf("3. AI MODE\n");
 	int mode;
 	scanf("%d", &mode);
 	int ch = 0;
@@ -226,7 +226,7 @@ int main()
 				gotoxy(0, 0);
 				field[y - 'A' + 1][x] = 0;
 				print_field();
-				printf("6¸ñÀº Âø¼ö ±İÁöÀÔ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.\n");
+				printf("6ëª©ì€ ì°©ìˆ˜ ê¸ˆì§€ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.\n");
 				Sleep(1000);
 				goto aa;
 			default:
