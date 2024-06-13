@@ -10,14 +10,14 @@
 #include <Windows.h>
 #include <conio.h>
 // gotoxy 함수: 콘솔의 커서 위치를 설정
-void gotoxy(int x, int y){
-	COORD pos = {x, y};
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+void gotoxy(int x, int y) {
+	COORD pos = { x, y };
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 // dx, dy 배열: 8방향 검사를 위한 좌표
-int dx[9] = {0, 1, 1, 1, 0, -1, -1, -1}, dy[9] = {-1, -1, 0, 1, 1, 1, 0, -1};
+int dx[9] = { 0, 1, 1, 1, 0, -1, -1, -1 }, dy[9] = { -1, -1, 0, 1, 1, 1, 0, -1 };
 // field 2차원 배열: 게임 보드
-int field[1001][1001] = {{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
+int field[1001][1001] = { {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
 						 {'A', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 						 {'B', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 						 {'C', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -32,8 +32,8 @@ int field[1001][1001] = {{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
 						 {'L', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 						 {'M', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 						 {'N', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-						 {'O', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-						 
+						 {'O', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
+
 // print_field 함수: 게임 보드를 콘솔에 출력
 void print_field()
 {
@@ -42,20 +42,20 @@ void print_field()
 	{
 		for (j = 0; j <= 15; j++)
 		{
-			if (field[i][j] >= 1 && field[i][j] <= 15){
+			if (field[i][j] >= 1 && field[i][j] <= 15) {
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 				printf("%2d ", field[i][j]);
 			}
-			else if (field[i][j] == 0){
+			else if (field[i][j] == 0) {
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
 				printf("%2c ", '-');
 			}
-			else if (field[i][j] == -1){//X설치
+			else if (field[i][j] == -1) {//X설치
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
 				printf("%2c ", 'X');
 			}
 			// printf(" \u25CF ");
-			else if (field[i][j] == -2){//O설치
+			else if (field[i][j] == -2) {//O설치
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
 				printf("%2c ", 'O');
 			}
@@ -79,7 +79,7 @@ void print_field()
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
 				printf("%2c ", 'O');
 			}
-			else{
+			else {
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 				printf("%2c ", field[i][j]);
 			}
@@ -156,12 +156,12 @@ int main()
 	system("cls");
 	//field 배열 초기화
 	for (i = 1; i <= 15; i++)
-    {
-        for (j = 1; j <= 15; j++)
-        {
-            field[i][j] = 0;
-        }
-    }
+	{
+		for (j = 1; j <= 15; j++)
+		{
+			field[i][j] = 0;
+		}
+	}
 	printf("STARTING OMOK GAME\n");
 	//게임모드 선택
 	printf("1. 1 VS 1 MODE\n");
@@ -169,11 +169,16 @@ int main()
 
 	int mode;
 	scanf("%d", &mode);
+	if (mode != 1 && mode != 2)
+	{
+		printf("썅껏");
+		return 0;
+	}
 	system("cls");
 	int ch = 0;
 	int turn = -2;
 	int running = 1;
-	while (running && mode==1)	{
+	while (running && mode == 1) {
 		if (turn == -2)//O
 		{
 		aa1:
@@ -183,8 +188,8 @@ int main()
 			{
 				int original;
 				original = field[y - 'A' + 1][x];
-				if(original!=0)
-					field[y-'A'+1][x] = -6;
+				if (original != 0)
+					field[y - 'A' + 1][x] = -6;
 				else
 					field[y - 'A' + 1][x] = -4;
 				gotoxy(0, 0);
@@ -248,12 +253,12 @@ int main()
 			{
 				int original;
 				original = field[y - 'A' + 1][x];
-				if(original!=0)
-					field[y-'A'+1][x] = -5;
+				if (original != 0)
+					field[y - 'A' + 1][x] = -5;
 				else
 					field[y - 'A' + 1][x] = -3;
 				gotoxy(0, 0);
-				
+
 				// system("cls");
 				print_field();
 				// printf("%d %d\n", y - 'A' + 1, x);
@@ -314,8 +319,8 @@ int main()
 			{
 				int original;
 				original = field[y - 'A' + 1][x];
-				if(original!=0)
-					field[y-'A'+1][x] = -6;
+				if (original != 0)
+					field[y - 'A' + 1][x] = -6;
 				else
 					field[y - 'A' + 1][x] = -4;
 				gotoxy(0, 0);
@@ -379,12 +384,12 @@ int main()
 			{
 				int original;
 				original = field[y - 'A' + 1][x];
-				if(original!=0)
-					field[y-'A'+1][x] = -5;
+				if (original != 0)
+					field[y - 'A' + 1][x] = -5;
 				else
 					field[y - 'A' + 1][x] = -3;
 				gotoxy(0, 0);
-				
+
 				// system("cls");
 				print_field();
 				// printf("%d %d\n", y - 'A' + 1, x);
@@ -438,10 +443,16 @@ int main()
 	printf("1. YES\n");
 	printf("2. NO\n");
 	scanf("%d", &again_respond);
+	
 	if (again_respond == 1)
 	{
-        system("cls");
-        main();
-    }
-	return 0;
+		system("cls");
+		main();
+	}
+	
+		printf("썅것");
+		return 0;
+
+
+	
 }
