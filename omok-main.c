@@ -167,16 +167,17 @@ int main()
     }
 	printf("STARTING OMOK GAME\n");
 	//게임모드 선택
-	printf("1. NORMAL MODE\n");
-	printf("2. AI MODE\n");
-
+	printf("1. 1 VS 1\n");	
+	printf("2. 2 VS 2\n");
+	
 	int mode;
 	scanf("%d", &mode);
 	system("cls");
 	int ch = 0;
 	int turn = -2;
 	int running = 1;
-	while (running)
+
+	while (running && mode == 1)
 	{
 		if (turn == -2)//O
 		{
@@ -242,6 +243,143 @@ int main()
 				goto aa;
 			default:
 				turn = -1;
+			}
+		}
+		else//x
+		{
+			x = 7;
+			y = 'H';
+			while (1)
+			{
+				int original;
+				original = field[y - 'A' + 1][x];
+				if(original!=0)
+					field[y-'A'+1][x] = -5;
+				else
+					field[y - 'A' + 1][x] = -3;
+				gotoxy(0, 0);
+				
+				// system("cls");
+				print_field();
+				// printf("%d %d\n", y - 'A' + 1, x);
+				field[y - 'A' + 1][x] = original;
+				printf("X turn!\n");
+				int key = _getch();
+				switch (key)
+				{
+				case 13:
+					break;
+				case LEFT:
+					if (1 <= x - 1 && x - 1 <= 15)
+						x--;
+					break;
+				case RIGHT:
+					if (1 <= x + 1 && x + 1 <= 15)
+						x++;
+					break;
+				case UP:
+					if (1 <= (y - 1 - 'A' + 1) && (y - 1 - 'A' + 1) <= 15)
+						y--;
+					break;
+				case DOWN:
+					if (1 <= (y + 1 - 'A' + 1) && (y + 1 - 'A' + 1) <= 15)
+						y++;
+					break;
+				}
+				if (key == 13 && field[y - 'A' + 1][x] == 0)
+				{ // enter
+					field[y - 'A' + 1][x] = -1;
+					ch++;
+					break;
+				}
+			}
+			field[y - 'A' + 1][x] = -1;
+			chk = checkfive(-1);
+			switch (chk)
+			{
+			case -1:
+				gotoxy(0, 0);
+				print_field();
+				printf("X WIN  ");
+				running = 0;
+				break;
+			default:
+				turn = -2;
+			}
+		}
+	}
+	while (running && mode == 2)
+	{
+		if (turn == -2)//O
+		{
+			int O_cnt=0;
+			aa:
+			x = 7;
+			y = 'H';
+			while (1)
+			{
+				int original;
+				original = field[y - 'A' + 1][x];
+				if(original!=0)
+					field[y-'A'+1][x] = -6;
+				else
+					field[y - 'A' + 1][x] = -4;
+				gotoxy(0, 0);
+				print_field();
+				field[y - 'A' + 1][x] = original;
+				printf("O turn!\n");
+				int key = _getch();
+				switch (key)
+				{
+				case 13:
+					break;
+				case LEFT:
+					if (1 <= x - 1 && x - 1 <= 15)
+						x--;
+					break;
+				case RIGHT:
+					if (1 <= x + 1 && x + 1 <= 15)
+						x++;
+					break;
+				case UP:
+					if (1 <= (y - 1 - 'A' + 1) && (y - 1 - 'A' + 1) <= 15)
+						y--;
+					break;
+				case DOWN:
+					if (1 <= (y + 1 - 'A' + 1) && (y + 1 - 'A' + 1) <= 15)
+						y++;
+					break;
+				}
+				if (key == 13 && field[y - 'A' + 1][x] == 0)
+				{ // enter
+					field[y - 'A' + 1][x] = -2;
+					ch++;
+					break;
+				}
+			}
+			chk = checkfive(-2);
+			switch (chk)
+			{
+			case -2:
+				gotoxy(0, 0);
+				print_field();
+				printf("O WIN  ");
+				running = 0;
+				break;
+			case -1:
+				gotoxy(0, 0);
+				field[y - 'A' + 1][x] = 0;
+				print_field();
+				printf("6목은 착수 금지입니다. 다시 입력해주세요.\n");
+				Sleep(1000);
+				goto aa;
+			default:
+				if(O_cnt==1)
+					turn = -1;
+				else{
+					O_cnt++;
+					goto aa;
+				}
 			}
 		}
 		else//x
