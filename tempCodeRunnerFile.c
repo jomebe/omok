@@ -1,2 +1,2 @@
 
-					field[y-'A'+1][x] = -6;
+	printf("2. PERCENT MODE\n");

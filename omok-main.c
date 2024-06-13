@@ -150,20 +150,31 @@ int checkfive(int color)
 	return 0;
 }
 char y, cy, b;
-int x, a, cx, chk;
+int x, cx, chk;
+int again_respond;
 // main 함수: 게임 진행
 int main()
 {
+	int i, j;
 	system("cls");
+	//field 배열 초기화
+	for (i = 1; i <= 15; i++)
+    {
+        for (j = 1; j <= 15; j++)
+        {
+            field[i][j] = 0;
+        }
+    }
 	printf("STARTING OMOK GAME\n");
 	//게임모드 선택
 	printf("1. NORMAL MODE\n");
-	printf("2. PERCENT MODE\n");
-	printf("3. AI MODE\n");
+	printf("2. AI MODE\n");
+
 	int mode;
 	scanf("%d", &mode);
+	system("cls");
 	int ch = 0;
-	int i, j, turn = -2;
+	int turn = -2;
 	int running = 1;
 	while (running)
 	{
@@ -296,4 +307,14 @@ int main()
 			}
 		}
 	}
+	printf("\nplay again?\n");
+	printf("1. YES\n");
+	printf("2. NO\n");
+	scanf("%d", &again_respond);
+	if (again_respond == 1)
+	{
+        system("cls");
+        main();
+    }
+	return 0;
 }
