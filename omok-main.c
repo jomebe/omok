@@ -147,7 +147,6 @@ int checkfive(int color)
 	return 0;
 }
 char y, cy, b;
-int x, a, cx, chk;
 int x, cx, chk;
 int again_respond;
 // main 함수: 게임 진행
