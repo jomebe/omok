@@ -165,10 +165,8 @@ int main()
     }
 	printf("STARTING OMOK GAME\n");
 	//게임모드 선택
-	printf("1. NORMAL MODE\n");
-	printf("2. PERCENT MODE\n");
-	printf("3. AI MODE\n");
-	printf("2. AI MODE\n");
+	printf("1. 1 VS 1 MODE\n");
+	printf("2. 2 VS 2 MODE\n");
 
 	int mode;
 	scanf("%d", &mode);
