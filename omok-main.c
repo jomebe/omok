@@ -3,12 +3,12 @@
 #define DOWN 80
 #define LEFT 75
 #define RIGHT 77
-// 필요한 헤더 파일 포함1
+// 필요한 헤더 파일 포함
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <Windows.h>
-#include <conio.h>2
+#include <conio.h>
 
 
 // gotoxy 함수: 콘솔의 커서 위치를 설정
@@ -145,7 +145,7 @@ int checkfive(int color)
     return 0;
 }
 void omokAI(){
-	int ai_field[101][101]={};
+	int ai_field[101][101]={0};
 	int i,j,d;
 	for (i = 1; i <= 15; i++){
 		for (j = 1; j <= 15; j++){
