@@ -144,7 +144,7 @@ int checkfive(int color)
     }
     return 0;
 }
-void omokAI(){
+int omokAI(){
 	int ai_field[101][101]={0};
 	int i,j,d;
 	for (i = 1; i <= 15; i++){
@@ -164,21 +164,35 @@ void omokAI(){
         }
 	}
 
-	// for (i = 1; i <= 15; i++){
-	// 	for (j = 1; j <= 15; j++){
-	// 		if(field[i][j]==-2){//흑돌 O
-	// 			for(int k = 0; k<3;k++){
-	// 				int tx=j,ty=i;
-	// 				for(d=0;d<8;d++){
-	// 					tx+=dx[d];
-	// 					ty+=dy[d];
-	// 					if(field[ty][tx]==-2)
-	// 						ai_field[ty][tx]
-	// 				}
-	// 			}
-	// 		}
-    //     }
-	// }
+	for (i = 1; i <= 15; i++){
+		for (j = 1; j <= 15; j++){
+			if(field[i][j]==-2){//흑돌 O
+				for(int k = 0; k<3;k++){
+					int tx=j,ty=i,tcnt=1;
+					for(d=0;d<8;d++){
+						tx+=dx[d];
+						ty+=dy[d];
+						if(field[ty][tx]!=-2)
+							break;
+						else
+							tcnt++;
+						if(tcnt==3 && field[i-dy[d]][j-dx[d]]==0){
+							printf("1");
+							return 0;
+							ai_field[i-dy[d]][j-dx[d]]-=50;
+                            break;
+						}
+						else if(tcnt==3 && field[ty+dy[d]][tx+dx[d]]==0){
+							printf("2");
+							return 0;
+							ai_field[ty+dy[d]][tx+dx[d]]-=50;
+							break;
+						}
+					}
+				}
+			}
+        }
+	}
 
 	int min=INT_MAX;
 	int minx,miny;
@@ -194,6 +208,7 @@ void omokAI(){
 	}
 	field[miny][minx]=-1;
 	printf("\n%c %d\n",miny+'A'-1,minx);
+	return 0;
 }
 
 
@@ -272,8 +287,6 @@ int main()
 				}
 				if (key == 13 && field[y - 'A' + 1][x] == 0)
 				{ // enter
-					printf("Enter");
-					return 0;
 					field[y - 'A' + 1][x] = -2;
 					break;
 				}
@@ -439,7 +452,7 @@ int main()
 			// return 0;
 			chk = checkfive(-1);
 			switch (chk){
-			case -2:
+			case -1:
 				gotoxy(0, 0);
 				print_field();
 				printf("AI WIN  ");
@@ -447,11 +460,6 @@ int main()
 				break;
 			default:
 				turn = -2;
-			}
-			if(chk == -2){
-				printf("\ntest");
-				return 0;
-				break;
 			}
 		}
 	}
