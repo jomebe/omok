@@ -166,36 +166,25 @@ int omokAI(){
 
 	for (i = 1; i <= 15; i++){
 		for (j = 1; j <= 15; j++){
-			if(field[i][j]==-2){//흑돌 O
-				int tcnt;
-				int tx,ty;
-				for(int k = 0; k<3;k++){
-						tx=j;
-						ty=i;
-						tcnt=1;
-						for(d=0;d<8;d++){
-							tx+=dx[d];
-							ty+=dy[d];
-							if(field[ty][tx]!=-2)
-								break;
-							else
-								tcnt++;
-						}
+			int tcnt=0;
+			int tx,ty;//흑돌 O
+				for(d=0;d<8;d++){
+					tx=j;
+					ty=i;
+					while(tcnt!=3 && field[ty][tx]==-2){
+						tcnt++;
+						tx+=dx[d];
+						ty+=dy[d];
+					}
+					if(tcnt==3){
+						if(field[i-dy[d]][j-dx[d]]==0)
+						    ai_field[i-dy[d]][j-dx[d]]-=50;
+						else if(field[ty+dy[d]][tx+dx[d]]==0)
+						    ai_field[ty+dy[d]][tx+dx[d]]-=50;
+					}
 				}
-					
-				if(tcnt==3 && field[i-dy[d]][j-dx[d]]==0){
-					printf("1");
-					return 0;
-					ai_field[i-dy[d]][j-dx[d]]-=50;
-					break;
-				}
-				else if(tcnt==3 && field[ty+dy[d]][tx+dx[d]]==0){
-					printf("2");
-					return 0;
-					ai_field[ty+dy[d]][tx+dx[d]]-=50;
-					break;
-				}
-			}
+				
+			
         }
 	}
 
