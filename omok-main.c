@@ -82,6 +82,15 @@ void print_field()
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
 				printf("%2c ", 'O');
 			}
+			else if (field[i][j] == -7) {//X방금설치
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
+				printf("%2c ", 'X');
+			}
+			// printf(" \u25CF ");
+			else if (field[i][j] == -8) {//O방금설치
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
+				printf("%2c ", 'O');
+			}
 			else {
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 				printf("%2c ", field[i][j]);
@@ -144,6 +153,24 @@ int checkfive(int color)
     }
     return 0;
 }
+void AIcacl(int arr[101][101]){
+	int i,j;
+	int min=INT_MAX;
+	int minx,miny;
+	for (i = 1; i <= 15; i++){
+		//printf("%d",i);
+		for (j = 1; j <= 15; j++){
+			if(arr[i][j]<min){
+				min=arr[i][j];
+				miny=i;
+				minx=j;
+			}
+        }
+	}
+	field[miny][minx]=-1;
+	printf("\n%c %d\n",miny+'A'-1,minx);
+
+}
 int omokAI(){
 	int ai_field[101][101]={0};
 	int i,j,d;
@@ -163,8 +190,71 @@ int omokAI(){
 			}
         }
 	}
-
-	for (i = 1; i <= 15; i++){//3개 검사
+	int isthree = 0;
+	int isjumpthree = 0;
+	int isattacktwo =0;
+		for (i = 1; i <= 15; i++){//5목 공격
+			for (j = 1; j <= 15; j++){
+				int tcnt=0;
+				int tx,ty;//흑돌 O
+					for(d=0;d<8;d++){
+						tx=j;
+						ty=i;
+						tcnt=0;
+						while(tcnt!=4 && field[ty][tx]==-1){
+							tcnt++;
+							tx+=dx[d];
+							ty+=dy[d];
+						}
+						if(tcnt==4){//AI돌이 4개가 연속으로 있을때
+							if(field[i-dy[d]][j-dx[d]]==0){//앞에다두기
+								ai_field[i-dy[d]][j-dx[d]]-=50;
+								AIcacl(ai_field);
+								return 0;
+							}
+							else if(field[ty][tx]==0){//뒤에다두기
+								ai_field[ty][tx]-=50;
+								AIcacl(ai_field);
+								return 0;
+							}
+						}
+					}
+			}
+		}
+	//뛴 삼목이랑 삼목이 아닐때 4목 공격
+		for (i = 1; i <= 15; i++){
+			for (j = 1; j <= 15; j++){
+				int tcnt=0;
+				int tx,ty;//흑돌 O
+				for(d=0;d<8;d++){
+					tx=j;
+					ty=i;
+					tcnt=0;
+					while(tcnt!=3 && field[ty][tx]==-1){
+						tcnt++;
+						tx+=dx[d];
+						ty+=dy[d];
+					}
+					if(tcnt==3){//AI돌이 3개가 연속으로 있을때
+						if(field[i-2*dy[d]][j-2*dx[d]]!=-2){//둘곳의앞이 유저의 돌이 아닐때
+							if(field[i-dy[d]][j-dx[d]]==0){//앞에다두기
+								ai_field[i-dy[d]][j-dx[d]]-=50;
+								AIcacl(ai_field);
+								return 0;
+							}
+						}
+						else if(field[ty+dy[d]][tx+dx[d]]!=-2){
+								if(field[ty][tx]==0){//뒤에다두기
+								ai_field[ty][tx]-=50;
+								AIcacl(ai_field);
+								return 0;
+							}
+						}
+					}
+				}
+			}
+		}
+	for (i = 1; i <= 15; i++){//3목 방어
 		for (j = 1; j <= 15; j++){
 			int tcnt=0;
 			int tx,ty;//흑돌 O
@@ -178,18 +268,22 @@ int omokAI(){
 						ty+=dy[d];
 					}
 					if(tcnt==3){
-						if(field[i-dy[d]][j-dx[d]]==0)
+						if(field[i-dy[d]][j-dx[d]]==0){
 						    ai_field[i-dy[d]][j-dx[d]]-=50;
-						else if(field[ty+dy[d]][tx+dx[d]]==0)
-						    ai_field[ty+dy[d]][tx+dx[d]]-=50;
+							AIcacl(ai_field);
+							return 0;
+						}
+						else if(field[ty][tx]==0){
+						    ai_field[ty][tx]-=50;
+							AIcacl(ai_field);
+							return 0;
+						}
 					}
 				}
-				
-			
         }
 	}
 
-	for (i = 1; i <= 15; i++){//띈 3목
+	for (i = 1; i <= 15; i++){//뛴 3목 방어
 		for (j = 1; j <= 15; j++){
 			int tcnt=0;
 			int tx,ty;//흑돌 O
@@ -203,36 +297,89 @@ int omokAI(){
 						ty+=dy[d];
 					}
 					if(field[ty+dy[d]][tx+dx[d]]==-2 && tcnt==2){
-						if(field[ty][tx]==0)
+						isjumpthree=1;
+						if(field[ty][tx]==0){
 						    ai_field[ty][tx]-=50;
-						else if(field[i-dy[d]][j-dx[d]]==0)
+							AIcacl(ai_field);
+							return 0;
+						}
+						else if(field[i-dy[d]][j-dx[d]]==0){
 						    ai_field[i-dy[d]][j-dx[d]]-=50;
-						else if(field[ty+2*dy[d]][tx+2*dx[d]]==0)
+							AIcacl(ai_field);
+							return 0;
+						}
+						else if(field[ty+2*dy[d]][tx+2*dx[d]]==0){
 						    ai_field[ty+2*dy[d]][tx+2*dx[d]]-=50;
+							AIcacl(ai_field);
+							return 0;
+						}
 					}
 				}
-				
-			
         }
 	}
-
-	int min=INT_MAX;
-	int minx,miny;
-	for (i = 1; i <= 15; i++){
-		//printf("%d",i);
-		for (j = 1; j <= 15; j++){
-			if(ai_field[i][j]<min){
-				min=ai_field[i][j];
-				miny=i;
-				minx=j;
+	
+	
+//뛴 삼목이랑 삼목이 아닐때 3목 공격
+		for (i = 1; i <= 15; i++){
+			for (j = 1; j <= 15; j++){
+				int tcnt=0;
+				int tx,ty;//흑돌 O
+					for(d=0;d<8;d++){
+						tx=j;
+						ty=i;
+						tcnt=0;
+						while(tcnt!=2 && field[ty][tx]==-1){
+							tcnt++;
+							tx+=dx[d];
+							ty+=dy[d];
+						}
+						if(tcnt==2){//AI돌이 두개가 연속으로 있을때
+							isattacktwo=1;
+							if(field[i-2*dy[d]][j-2*dx[d]]!=-2){//둘곳의앞이 유저의 돌이 아닐때
+								if(field[i-dy[d]][j-dx[d]]==0){//앞에다두기
+									ai_field[i-dy[d]][j-dx[d]]-=50;
+									AIcacl(ai_field);
+									return 0;
+								}
+							}
+							else if(field[ty][tx]==0){//뒤에다두기
+								ai_field[ty][tx]-=50;
+								AIcacl(ai_field);
+								return 0;
+							}
+						}
+					}
 			}
-        }
-	}
-	field[miny][minx]=-1;
-	printf("\n%c %d\n",miny+'A'-1,minx);
+		}
+//공격도 아니고 수비도 아닌 병신일때 2목 공격
+		for (i = 1; i <= 15; i++){
+			for (j = 1; j <= 15; j++){
+				int tcnt=0;
+				int tx,ty;//흑돌 O
+				if(field[i][j]==-1){
+					for(d=0;d<8;d++){
+						tx=j+dx[d];
+						ty=i+dy[d];
+						
+						tcnt=0;
+						while(tcnt!=4 && field[ty][tx]==0){
+							tcnt++;
+							tx+=dx[d];
+							ty+=dy[d];
+						}
+						if(tcnt==4 && field[i-dy[d]][j-dx[d]]!=-2){//AI돌이 한방향으로 둘 수 있는 곳이 현재위치 제외 4개일때
+							ai_field[i+dy[d]][j+dx[d]]-=50;
+							AIcacl(ai_field);
+							return 0;
+						
+						}
+					}
+				}
+			}
+		}
+	AIcacl(ai_field);
 	return 0;
 }
-
 
 
 char y, cy, b;
@@ -503,8 +650,4 @@ int main()
 		main();
 	}
 	printf("썅것");
-	return 0;
-
-
-
 }
