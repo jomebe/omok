@@ -41,6 +41,7 @@ int field[101][101] = { {0, 1000001, 1000002, 1000003, 1000004, 1000005, 1000006
 void print_field()
 {
 	int i, j;
+	//printf("\n%d %d\n",field[15][14],field[15][15]);
 	for (i = 0; i <= 15; i++)
 	{
 		for (j = 0; j <= 15; j++)
@@ -238,13 +239,14 @@ int omokAI(){
 					if(tcnt==3){//AI돌이 3개가 연속으로 있을때
 						if(field[i-2*dy[d]][j-2*dx[d]]!=-2){//둘곳의앞이 유저의 돌이 아닐때
 							if(field[i-dy[d]][j-dx[d]]==0){//앞에다두기
+							
 								ai_field[i-dy[d]][j-dx[d]]-=50;
 								AIcacl(ai_field);
 								return 0;
 							}
 						}
 						else if(field[ty+dy[d]][tx+dx[d]]!=-2){
-								if(field[ty][tx]==0){//뒤에다두기
+							if(field[ty][tx]==0){//뒤에다두기
 								ai_field[ty][tx]-=50;
 								AIcacl(ai_field);
 								return 0;
@@ -267,7 +269,9 @@ int omokAI(){
 						tx+=dx[d];
 						ty+=dy[d];
 					}
-					if(tcnt==3){
+					if(tcnt==3 && field[ty][tx]==0 && field[i-dy[d]][j-dx[d]]==0){
+						// printf("%c %d\n%c %d",ty+'A'-1,tx,i-dy[d]+'A'-1,j-dx[d]);
+						// Sleep(5000);
 						if(field[i-dy[d]][j-dx[d]]==0){
 						    ai_field[i-dy[d]][j-dx[d]]-=50;
 							AIcacl(ai_field);
@@ -334,7 +338,6 @@ int omokAI(){
 							ty+=dy[d];
 						}
 						if(tcnt==2){//AI돌이 두개가 연속으로 있을때
-							isattacktwo=1;
 							if(field[i-2*dy[d]][j-2*dx[d]]!=-2){//둘곳의앞이 유저의 돌이 아닐때
 								if(field[i-dy[d]][j-dx[d]]==0){//앞에다두기
 									ai_field[i-dy[d]][j-dx[d]]-=50;
@@ -342,10 +345,12 @@ int omokAI(){
 									return 0;
 								}
 							}
-							else if(field[ty][tx]==0){//뒤에다두기
-								ai_field[ty][tx]-=50;
-								AIcacl(ai_field);
-								return 0;
+							if(field[ty+dy[d]][tx+dx[d]]!=-2){
+								if(field[ty][tx]==0){//뒤에다두기
+									ai_field[ty][tx]-=50;
+									AIcacl(ai_field);
+									return 0;
+								}
 							}
 						}
 					}
