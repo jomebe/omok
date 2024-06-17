@@ -171,6 +171,7 @@ int omokAI(){
 				for(d=0;d<8;d++){
 					tx=j;
 					ty=i;
+					tcnt=0;
 					while(tcnt!=3 && field[ty][tx]==-2){
 						tcnt++;
 						tx+=dx[d];
