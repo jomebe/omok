@@ -164,7 +164,7 @@ int omokAI(){
         }
 	}
 
-	for (i = 1; i <= 15; i++){
+	for (i = 1; i <= 15; i++){//3개 검사
 		for (j = 1; j <= 15; j++){
 			int tcnt=0;
 			int tx,ty;//흑돌 O
@@ -182,6 +182,33 @@ int omokAI(){
 						    ai_field[i-dy[d]][j-dx[d]]-=50;
 						else if(field[ty+dy[d]][tx+dx[d]]==0)
 						    ai_field[ty+dy[d]][tx+dx[d]]-=50;
+					}
+				}
+				
+			
+        }
+	}
+
+	for (i = 1; i <= 15; i++){//띈 3목
+		for (j = 1; j <= 15; j++){
+			int tcnt=0;
+			int tx,ty;//흑돌 O
+				for(d=0;d<8;d++){
+					tx=j;
+					ty=i;
+					tcnt=0;
+					while(tcnt!=2 && field[ty][tx]==-2){
+						tcnt++;
+						tx+=dx[d];
+						ty+=dy[d];
+					}
+					if(field[ty+dy[d]][tx+dx[d]]==-2 && tcnt==2){
+						if(field[ty][tx]==0)
+						    ai_field[ty][tx]-=50;
+						else if(field[i-dy[d]][j-dx[d]]==0)
+						    ai_field[i-dy[d]][j-dx[d]]-=50;
+						else if(field[ty+2*dy[d]][tx+2*dx[d]]==0)
+						    ai_field[ty+2*dy[d]][tx+2*dx[d]]-=50;
 					}
 				}
 				
