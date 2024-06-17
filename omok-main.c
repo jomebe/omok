@@ -1,9 +1,9 @@
-// UP, DOWN, LEFT, RIGHT í‚¤ë¥¼ ì •ì˜
+// UP, DOWN, LEFT, RIGHT Å°¸¦ Á¤ÀÇ
 #define UP 72
 #define DOWN 80
 #define LEFT 75
 #define RIGHT 77
-// í•„ìš”í•œ í—¤ë” íŒŒì¼ í¬í•¨
+// ÇÊ¿äÇÑ Çì´õ ÆÄÀÏ Æ÷ÇÔ
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,15 +11,15 @@
 #include <conio.h>
 
 
-// gotoxy í•¨ìˆ˜: ì½˜ì†”ì˜ ì»¤ì„œ ìœ„ì¹˜ë¥¼ ì„¤ì •
+// gotoxy ÇÔ¼ö: ÄÜ¼ÖÀÇ Ä¿¼­ À§Ä¡¸¦ ¼³Á¤
 void gotoxy(int x, int y){
-    COORD pos={x,y}; //x, y ì¢Œí‘œ ì„¤ì •
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos); //ì»¤ì„œ ì„¤ì •
+    COORD pos={x,y}; //x, y ÁÂÇ¥ ¼³Á¤
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos); //Ä¿¼­ ¼³Á¤
 }
 
-// dx, dy ë°°ì—´: 8ë°©í–¥ ê²€ì‚¬ë¥¼ ìœ„í•œ ì¢Œí‘œ
+// dx, dy ¹è¿­: 8¹æÇâ °Ë»ç¸¦ À§ÇÑ ÁÂÇ¥
 int dx[9] = { 0, 1, 1, 1, 0, -1, -1, -1 }, dy[9] = { -1, -1, 0, 1, 1, 1, 0, -1 };
-// field 2ì°¨ì› ë°°ì—´: ê²Œì„ ë³´ë“œ
+// field 2Â÷¿ø ¹è¿­: °ÔÀÓ º¸µå
 int field[101][101] = { {0, 1000001, 1000002, 1000003, 1000004, 1000005, 1000006, 1000007, 1000008, 1000009, 1000010, 1000011, 1000012, 1000013, 1000014, 1000015},
 						 {'A', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 						 {'B', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -37,7 +37,7 @@ int field[101][101] = { {0, 1000001, 1000002, 1000003, 1000004, 1000005, 1000006
 						 {'N', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 						 {'O', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
 
-// print_field í•¨ìˆ˜: ê²Œì„ ë³´ë“œë¥¼ ì½˜ì†”ì— ì¶œë ¥
+// print_field ÇÔ¼ö: °ÔÀÓ º¸µå¸¦ ÄÜ¼Ö¿¡ Ãâ·Â
 void print_field()
 {
 	int i, j;
@@ -54,41 +54,41 @@ void print_field()
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
 				printf("%2c ", '-');
 			}
-			else if (field[i][j] == -1) {//Xì„¤ì¹˜
+			else if (field[i][j] == -1) {//X¼³Ä¡
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
 				printf("%2c ", 'X');
 			}
 			// printf(" \u25CF ");
-			else if (field[i][j] == -2) {//Oì„¤ì¹˜
+			else if (field[i][j] == -2) {//O¼³Ä¡
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
 				printf("%2c ", 'O');
 			}
-			else if (field[i][j] == -3)//Xì˜ˆìƒ
+			else if (field[i][j] == -3)//X¿¹»ó
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
 				printf("%2c ", 'X');
 			}
-			else if (field[i][j] == -4)//Oì˜ˆìƒ
+			else if (field[i][j] == -4)//O¿¹»ó
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
 				printf("%2c ", 'O');
 			}
-			else if (field[i][j] == -5)//Xë¶ˆê°€ëŠ¥
+			else if (field[i][j] == -5)//XºÒ°¡´É
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
 				printf("%2c ", 'X');
 			}
-			else if (field[i][j] == -6)//Oë¶ˆê°€ëŠ¥
+			else if (field[i][j] == -6)//OºÒ°¡´É
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
 				printf("%2c ", 'O');
 			}
-			else if (field[i][j] == -7) {//Xë°©ê¸ˆì„¤ì¹˜
+			else if (field[i][j] == -7) {//X¹æ±İ¼³Ä¡
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
 				printf("%2c ", 'X');
 			}
 			// printf(" \u25CF ");
-			else if (field[i][j] == -8) {//Oë°©ê¸ˆì„¤ì¹˜
+			else if (field[i][j] == -8) {//O¹æ±İ¼³Ä¡
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
 				printf("%2c ", 'O');
 			}
@@ -101,7 +101,7 @@ void print_field()
 	}
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 }
-// checkfive í•¨ìˆ˜: 5ëª©(gomok)ì„ ê²€ì‚¬
+// checkfive ÇÔ¼ö: 5¸ñ(gomok)À» °Ë»ç
 int checkfive(int color)
 {
     int i, j, d, check = 1, x1, y1, k;
@@ -172,18 +172,28 @@ void AIcacl(int arr[101][101]){
 	printf("\n%c %d\n",miny+'A'-1,minx);
 
 }
+void init_arr(int arr[101][101]){
+	int i,j;
+	for(i=1;i<=15;i++){
+		for(j=1;j<=15;j++){
+			arr[i][j]=0;
+		}
+	}
+}
 int omokAI(){
-	int ai_field[101][101]={0};
+
+	int ai_field[101][101];
+	init_arr(ai_field);
 	int i,j,d;
 	for (i = 1; i <= 15; i++){
 		for (j = 1; j <= 15; j++){
-			if(field[i][j]==-2){//í‘ëŒ O
+			if(field[i][j]==-2){//Èæµ¹ O
 				for(d=0;d<8;d++){
 					if(field[i+dy[d]][j+dx[d]]==0)
 						ai_field[i+dy[d]][j+dx[d]]--;
 				}
 			}
-			if(field[i][j]==-1){//ë°±ëŒ X
+			if(field[i][j]==-1){//¹éµ¹ X
 				for(d=0;d<8;d++){
 					if(field[i+dy[d]][j+dx[d]]==0)
 						ai_field[i+dy[d]][j+dx[d]]++;
@@ -194,10 +204,10 @@ int omokAI(){
 	int isthree = 0;
 	int isjumpthree = 0;
 	int isattacktwo =0;
-		for (i = 1; i <= 15; i++){//5ëª© ê³µê²©
+		for (i = 1; i <= 15; i++){//5¸ñ °ø°İ
 			for (j = 1; j <= 15; j++){
 				int tcnt=0;
-				int tx,ty;//í‘ëŒ O
+				int tx,ty;//Èæµ¹ O
 					for(d=0;d<8;d++){
 						tx=j;
 						ty=i;
@@ -207,13 +217,13 @@ int omokAI(){
 							tx+=dx[d];
 							ty+=dy[d];
 						}
-						if(tcnt==4){//AIëŒì´ 4ê°œê°€ ì—°ì†ìœ¼ë¡œ ìˆì„ë•Œ
-							if(field[i-dy[d]][j-dx[d]]==0){//ì•ì—ë‹¤ë‘ê¸°
+						if(tcnt==4){//AIµ¹ÀÌ 4°³°¡ ¿¬¼ÓÀ¸·Î ÀÖÀ»¶§
+							if(field[i-dy[d]][j-dx[d]]==0){//¾Õ¿¡´ÙµÎ±â
 								ai_field[i-dy[d]][j-dx[d]]-=50;
 								AIcacl(ai_field);
 								return 0;
 							}
-							else if(field[ty][tx]==0){//ë’¤ì—ë‹¤ë‘ê¸°
+							else if(field[ty][tx]==0){//µÚ¿¡´ÙµÎ±â
 								ai_field[ty][tx]-=50;
 								AIcacl(ai_field);
 								return 0;
@@ -222,11 +232,40 @@ int omokAI(){
 					}
 			}
 		}
-	//ë›´ ì‚¼ëª©ì´ë‘ ì‚¼ëª©ì´ ì•„ë‹ë•Œ 4ëª© ê³µê²©
+		for (i = 1; i <= 15; i++){//5¸ñ ¹æ¾î
+			for (j = 1; j <= 15; j++){
+				int tcnt=0;
+				int tx,ty;//Èæµ¹ O
+					for(d=0;d<8;d++){
+						tx=j;
+						ty=i;
+						tcnt=0;
+						while(tcnt!=4 && field[ty][tx]==-2){
+							tcnt++;
+							tx+=dx[d];
+							ty+=dy[d];
+						}
+						if(tcnt==4 && (field[ty][tx]==0 ^ field[i-dy[d]][j-dx[d]]==0)){
+							if(field[i-dy[d]][j-dx[d]]==0){
+								ai_field[i-dy[d]][j-dx[d]]-=50;
+								AIcacl(ai_field);
+								return 0;
+							}
+							else if(field[ty][tx]==0){
+								ai_field[ty][tx]-=50;
+								AIcacl(ai_field);
+								return 0;
+							}
+						}
+					}
+			}
+	}
+
+	//¶Ú »ï¸ñÀÌ¶û »ï¸ñÀÌ ¾Æ´Ò¶§ 4¸ñ °ø°İ
 		for (i = 1; i <= 15; i++){
 			for (j = 1; j <= 15; j++){
 				int tcnt=0;
-				int tx,ty;//í‘ëŒ O
+				int tx,ty;//Èæµ¹ O
 				for(d=0;d<8;d++){
 					tx=j;
 					ty=i;
@@ -236,9 +275,9 @@ int omokAI(){
 						tx+=dx[d];
 						ty+=dy[d];
 					}
-					if(tcnt==3){//AIëŒì´ 3ê°œê°€ ì—°ì†ìœ¼ë¡œ ìˆì„ë•Œ
-						if(field[i-2*dy[d]][j-2*dx[d]]!=-2){//ë‘˜ê³³ì˜ì•ì´ ìœ ì €ì˜ ëŒì´ ì•„ë‹ë•Œ
-							if(field[i-dy[d]][j-dx[d]]==0){//ì•ì—ë‹¤ë‘ê¸°
+					if(tcnt==3){//AIµ¹ÀÌ 3°³°¡ ¿¬¼ÓÀ¸·Î ÀÖÀ»¶§
+						if(field[i-2*dy[d]][j-2*dx[d]]!=-2){//µÑ°÷ÀÇ¾ÕÀÌ À¯ÀúÀÇ µ¹ÀÌ ¾Æ´Ò¶§
+							if(field[i-dy[d]][j-dx[d]]==0){//¾Õ¿¡´ÙµÎ±â
 							
 								ai_field[i-dy[d]][j-dx[d]]-=50;
 								AIcacl(ai_field);
@@ -246,7 +285,7 @@ int omokAI(){
 							}
 						}
 						else if(field[ty+dy[d]][tx+dx[d]]!=-2){
-							if(field[ty][tx]==0){//ë’¤ì—ë‹¤ë‘ê¸°
+							if(field[ty][tx]==0){//µÚ¿¡´ÙµÎ±â
 								ai_field[ty][tx]-=50;
 								AIcacl(ai_field);
 								return 0;
@@ -256,41 +295,10 @@ int omokAI(){
 				}
 			}
 		}
-	for (i = 1; i <= 15; i++){//3ëª© ë°©ì–´
+	for (i = 1; i <= 15; i++){//¶Ú 3¸ñ ¹æ¾î
 		for (j = 1; j <= 15; j++){
 			int tcnt=0;
-			int tx,ty;//í‘ëŒ O
-				for(d=0;d<8;d++){
-					tx=j;
-					ty=i;
-					tcnt=0;
-					while(tcnt!=3 && field[ty][tx]==-2){
-						tcnt++;
-						tx+=dx[d];
-						ty+=dy[d];
-					}
-					if(tcnt==3 && field[ty][tx]==0 && field[i-dy[d]][j-dx[d]]==0){
-						// printf("%c %d\n%c %d",ty+'A'-1,tx,i-dy[d]+'A'-1,j-dx[d]);
-						// Sleep(5000);
-						if(field[i-dy[d]][j-dx[d]]==0){
-						    ai_field[i-dy[d]][j-dx[d]]-=50;
-							AIcacl(ai_field);
-							return 0;
-						}
-						else if(field[ty][tx]==0){
-						    ai_field[ty][tx]-=50;
-							AIcacl(ai_field);
-							return 0;
-						}
-					}
-				}
-        }
-	}
-
-	for (i = 1; i <= 15; i++){//ë›´ 3ëª© ë°©ì–´
-		for (j = 1; j <= 15; j++){
-			int tcnt=0;
-			int tx,ty;//í‘ëŒ O
+			int tx,ty;//Èæµ¹ O
 				for(d=0;d<8;d++){
 					tx=j;
 					ty=i;
@@ -321,13 +329,45 @@ int omokAI(){
 				}
         }
 	}
+	for (i = 1; i <= 15; i++){//3¸ñ ¹æ¾î
+		for (j = 1; j <= 15; j++){
+			int tcnt=0;
+			int tx,ty;//Èæµ¹ O
+				for(d=0;d<8;d++){
+					tx=j;
+					ty=i;
+					tcnt=0;
+					while(tcnt!=3 && field[ty][tx]==-2){
+						tcnt++;
+						tx+=dx[d];
+						ty+=dy[d];
+					}
+					if(tcnt==3 && field[ty][tx]==0 && field[i-dy[d]][j-dx[d]]==0){
+						// printf("%c %d\n%c %d",ty+'A'-1,tx,i-dy[d]+'A'-1,j-dx[d]);
+						// Sleep(5000);
+						if(field[i-dy[d]][j-dx[d]]==0){
+						    ai_field[i-dy[d]][j-dx[d]]-=50;
+							AIcacl(ai_field);
+							return 0;
+						}
+						else if(field[ty][tx]==0){
+						    ai_field[ty][tx]-=50;
+							AIcacl(ai_field);
+							return 0;
+						}
+					}
+				}
+        }
+	}
+
 	
 	
-//ë›´ ì‚¼ëª©ì´ë‘ ì‚¼ëª©ì´ ì•„ë‹ë•Œ 3ëª© ê³µê²©
+	
+//¶Ú »ï¸ñÀÌ¶û »ï¸ñÀÌ ¾Æ´Ò¶§ 3¸ñ °ø°İ
 		for (i = 1; i <= 15; i++){
 			for (j = 1; j <= 15; j++){
 				int tcnt=0;
-				int tx,ty;//í‘ëŒ O
+				int tx,ty;//Èæµ¹ O
 					for(d=0;d<8;d++){
 						tx=j;
 						ty=i;
@@ -337,16 +377,16 @@ int omokAI(){
 							tx+=dx[d];
 							ty+=dy[d];
 						}
-						if(tcnt==2){//AIëŒì´ ë‘ê°œê°€ ì—°ì†ìœ¼ë¡œ ìˆì„ë•Œ
-							if(field[i-2*dy[d]][j-2*dx[d]]!=-2){//ë‘˜ê³³ì˜ì•ì´ ìœ ì €ì˜ ëŒì´ ì•„ë‹ë•Œ
-								if(field[i-dy[d]][j-dx[d]]==0){//ì•ì—ë‹¤ë‘ê¸°
+						if(tcnt==2){//AIµ¹ÀÌ µÎ°³°¡ ¿¬¼ÓÀ¸·Î ÀÖÀ»¶§
+							if(field[i-2*dy[d]][j-2*dx[d]]!=-2){//µÑ°÷ÀÇ¾ÕÀÌ À¯ÀúÀÇ µ¹ÀÌ ¾Æ´Ò¶§
+								if(field[i-dy[d]][j-dx[d]]==0){//¾Õ¿¡´ÙµÎ±â
 									ai_field[i-dy[d]][j-dx[d]]-=50;
 									AIcacl(ai_field);
 									return 0;
 								}
 							}
 							if(field[ty+dy[d]][tx+dx[d]]!=-2){
-								if(field[ty][tx]==0){//ë’¤ì—ë‹¤ë‘ê¸°
+								if(field[ty][tx]==0){//µÚ¿¡´ÙµÎ±â
 									ai_field[ty][tx]-=50;
 									AIcacl(ai_field);
 									return 0;
@@ -356,11 +396,11 @@ int omokAI(){
 					}
 			}
 		}
-//ê³µê²©ë„ ì•„ë‹ˆê³  ìˆ˜ë¹„ë„ ì•„ë‹Œ ë³‘ì‹ ì¼ë•Œ 2ëª© ê³µê²©
+//°ø°İµµ ¾Æ´Ï°í ¼öºñµµ ¾Æ´Ñ º´½ÅÀÏ¶§ 2¸ñ °ø°İ
 		for (i = 1; i <= 15; i++){
 			for (j = 1; j <= 15; j++){
 				int tcnt=0;
-				int tx,ty;//í‘ëŒ O
+				int tx,ty;//Èæµ¹ O
 				if(field[i][j]==-1){
 					for(d=0;d<8;d++){
 						tx=j+dx[d];
@@ -372,7 +412,7 @@ int omokAI(){
 							tx+=dx[d];
 							ty+=dy[d];
 						}
-						if(tcnt==4 && field[i-dy[d]][j-dx[d]]!=-2){//AIëŒì´ í•œë°©í–¥ìœ¼ë¡œ ë‘˜ ìˆ˜ ìˆëŠ” ê³³ì´ í˜„ì¬ìœ„ì¹˜ ì œì™¸ 4ê°œì¼ë•Œ
+						if(tcnt==4 && field[i-dy[d]][j-dx[d]]!=-2){//AIµ¹ÀÌ ÇÑ¹æÇâÀ¸·Î µÑ ¼ö ÀÖ´Â °÷ÀÌ ÇöÀçÀ§Ä¡ Á¦¿Ü 4°³ÀÏ¶§
 							ai_field[i+dy[d]][j+dx[d]]-=50;
 							AIcacl(ai_field);
 							return 0;
@@ -390,12 +430,12 @@ int omokAI(){
 char y, cy, b;
 int x, cx, chk;
 int again_respond;
-// main í•¨ìˆ˜: ê²Œì„ ì§„í–‰
+// main ÇÔ¼ö: °ÔÀÓ ÁøÇà
 int main()
 {
 	int i, j;
 	system("cls");
-	//field ë°°ì—´ ì´ˆê¸°í™”
+	//field ¹è¿­ ÃÊ±âÈ­
 	for (i = 1; i <= 15; i++)
 	{
 		for (j = 1; j <= 15; j++)
@@ -404,7 +444,7 @@ int main()
 		}
 	}
 	printf("STARTING OMOK GAME\n");
-	//ê²Œì„ëª¨ë“œ ì„ íƒ
+	//°ÔÀÓ¸ğµå ¼±ÅÃ
 	printf("1. 1 VS 1 MODE\n");
 	printf("2. 1 VS AI MODE\n");
 
@@ -412,7 +452,7 @@ int main()
 	scanf("%d", &mode);
 	if (mode != 1 && mode != 2)
 	{
-		printf("ì…ê»");
+		printf("½à²¯");
 		return 0;
 	}
 	system("cls");
@@ -478,7 +518,7 @@ int main()
 				gotoxy(0, 0);
 				field[y - 'A' + 1][x] = 0;
 				print_field();
-				printf("6ëª©ì€ ì°©ìˆ˜ ê¸ˆì§€ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.\n");
+				printf("6¸ñÀº Âø¼ö ±İÁöÀÔ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.\n");
 				Sleep(1000);
 				goto aa2;
 			default:
@@ -610,7 +650,7 @@ int main()
 				gotoxy(0, 0);
 				field[y - 'A' + 1][x] = 0;
 				print_field();
-				printf("6ëª©ì€ ì°©ìˆ˜ ê¸ˆì§€ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.\n");
+				printf("6¸ñÀº Âø¼ö ±İÁöÀÔ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.\n");
 				Sleep(1000);
 				goto aa1;
 			default:
@@ -654,5 +694,5 @@ int main()
 		system("cls");
 		main();
 	}
-	printf("ì…ê²ƒ");
+	printf("½à°Í");
 }
